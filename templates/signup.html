@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url("{{ url_for('static', filename='13.jpg') }}");
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding-top: 40px;
+        }
+        .logo {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+        form {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgb(2, 2, 2);
+            width: 340px;
+            margin: 0 auto;
+            color: black;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 10px;
+            width: 90%;
+            border: 1px solid #0c0101;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0481f5d2;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: left;
+            margin-left: 5%;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    </div>
+    <h2>Signup</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="full_name">Full Name</label>
+        <input type="text" name="full_name" id="full_name" placeholder="Full Name" required>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="Email" required>
+
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="Username" required>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+
+        <label for="front_id">Upload Front of ID</label>
+        <input type="file" name="front_id" id="front_id" accept="image/*" required>
+
+        <label for="back_id">Upload Back of ID</label>
+        <input type="file" name="back_id" id="back_id" accept="image/*" required>
+
+        <button type="submit">Signup</button>
+    </form>
+
+   
+</body>
+</html>

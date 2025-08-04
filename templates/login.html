@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url("{{ url_for('static', filename='13.jpg') }}");
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .logo {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            
+            
+        }
+
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgb(2, 2, 2);
+            width: 300px;
+            margin: 0 auto;
+            color: rgb(0, 0, 0);
+        }
+
+        .login-box h2 { margin-bottom: 20px; }
+
+        
+        input {
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+            border: 1px solid #0c0101;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0481f5d2;
+            color: #fff;
+            border: 2px solid white;
+            border-radius: 5px;
+        }
+
+        .signup-link { margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    </div>
+
+    <div class="container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form method="POST">
+                <label>Username</label>
+                <input type="text" name="username" required>
+                <label>Password</label>
+                <input type="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <div class="signup-link">
+                <p>Don't have an account? <a style="color: #000000;" href="{{ url_for('signup') }}">Signup here</a></p>
+            </div>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul>
+                  {% for message in messages %}
+                    <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+</html>

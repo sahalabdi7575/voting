@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url("{{ url_for('static', filename='13.jpg') }}");
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            text-align: center;
+        }
+
+        .logo {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
+
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+
+        .top-links {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .top-links a {
+            text-decoration: none;
+            margin-right: 20px;
+            background-color: #00000000;
+            color: #000000;
+            padding: 8px 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgb(0, 0, 0);
+            transition: background-color 0.3s;
+        }
+
+        .top-links a:hover {
+            background-color: #49505720;
+        }
+
+        .results-container {
+            max-width: 800px;
+            margin: 100px auto 40px;
+            background: rgba(255, 255, 255, 0.265);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgb(0, 0, 0);
+            padding: 30px;
+        }
+
+        h2 {
+            color: #000000;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            color: rgba(0, 0, 0, 0.658);
+            margin-bottom: 30px;
+        }
+
+        .contestant {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgb(0, 0, 0);
+        }
+
+        .contestant img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .contestant-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .contestant-info h4 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .votes-count {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .progress-bar {
+            height: 18px;
+            background-color: #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #007bff;
+            text-align: right;
+            padding-right: 8px;
+            color: white;
+            line-height: 18px;
+            font-size: 13px;
+        }
+
+        .bottom-links {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .bottom-links a {
+            text-decoration: none;
+            margin: 0 15px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        .bottom-links a:hover {
+            background-color: #495057;
+        }
+
+        /* ✅ Vote Success Animation */
+        #vote-success {
+            background-color: #0077d9;
+            border: 1px solid #0077d9;
+            padding: 20px;
+            margin: 20px auto;
+            width: 40%;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.854);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        #vote-success .checkmark {
+            font-size: 35px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* ✅ Vote Warning Animation */
+        #vote-warning {
+            background-color: #1a66e8;
+            border: 1px solid #1a66e8;
+            padding: 20px;
+            margin: 20px auto;
+            width: 40%;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        #vote-warning .checkmark {
+            font-size: 35px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    </div>
+
+    <div class="top-links">
+        <a href="{{ url_for('index') }}">Back to Vote</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% if session.get('is_admin') %}
+            <a href="{{ url_for('admin') }}">Admin Panel</a>
+        {% endif %}
+    </div>
+
+    <!-- ✅ Vote Success Box -->
+    {% if voted %}
+    <div id="vote-success">
+        <span class="checkmark">✅</span>
+        Codkaagii waa la diiwaangeliyay!
+    </div>
+    {% endif %}
+
+    <!-- ✅ Vote Warning Box -->
+    {% if voted_warning %}
+    <div id="vote-warning">
+        <span class="checkmark">⚠️</span>
+        Waxaa laguu ogolyahay inaa Halmar Codeyso
+    </div>
+    {% endif %}
+
+    <div class="results-container">
+        <h2>Natiijada: {{ poll.poll_name }}</h2>
+
+        {% set total_votes = poll.choices | map(attribute='votes') | sum %}
+
+        {% for choice in poll.choices %}
+            {% set percentage = (choice.votes / total_votes * 100) if total_votes > 0 else 0 %}
+            <div class="contestant">
+                <img src="{{ url_for('static', filename='poll_images/' ~ (poll.contestant1_image if choice.choice_text == poll.contestant1_name else poll.contestant2_image)) }}" alt="{{ choice.choice_text }}">
+                <div class="contestant-info">
+                    <h4>{{ choice.choice_text }}</h4>
+                    <div class="votes-count">{{ choice.votes }} cod ({{ '%.1f' % percentage }}%)</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: {{ percentage }}%;">
+                            {{ '%.1f' % percentage }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- ✅ JS to auto-hide success message after 5 seconds -->
+    <script>
+        setTimeout(function() {
+            const successBox = document.getElementById('vote-success');
+            if (successBox) {
+                successBox.style.display = 'none';
+            }
+        }, 5000);
+    </script>
+
+</body>
+</html>

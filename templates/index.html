@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <title>Vote</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url("{{ url_for('static', filename='13.jpg') }}");
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .logo {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            
+            
+        }
+
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+
+        .top-links {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .top-links a {
+            text-decoration: none;
+            margin-right: 20px;
+            background-color: #00000000;
+            color: rgb(0, 0, 0);
+            padding: 8px 15px;
+            border-radius: 6px;
+            color: #000000;
+            box-shadow: 0 2px 6px rgb(0, 0, 0);
+            transition: background-color 0.3s;
+        }
+
+        .top-links a:hover {
+            background-color: #49505720;
+        }
+
+        .poll-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: rgba(255, 253, 253, 0.217);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.721);
+            padding: 30px;
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #000000;
+        }
+
+        .poll-form {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .choice-wrapper {
+            display: inline-block;
+            margin: 20px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .poll-form input[type="radio"] {
+            display: none;
+        }
+
+        .custom-radio {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.571);
+            background-color: #fff;
+            position: relative;
+        }
+
+        .custom-radio img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .custom-radio strong {
+            font-size: 16px;
+            color: #000;
+        }
+
+        input[type="radio"]:checked + .custom-radio {
+            border-color: #007bff;
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+        }
+
+        input[type="radio"]:checked + .custom-radio::after {
+            content: "✔️";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 22px;
+            color: #007bff;
+        }
+
+        .poll-form button {
+            padding: 10px 25px;
+            font-size: 16px;
+            background-color: #ffffff;
+            border: none;
+            color: rgb(0, 0, 0);
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.683);
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    </div>
+
+    <div class="top-links">
+        <a href="{{ url_for('results') }}">Results</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% if session.get('is_admin') %}
+            <a href="{{ url_for('admin') }}">Admin Panel</a>
+        {% endif %}
+    </div>
+
+    <div class="poll-container">
+        <h2>{{ poll.poll_name }}</h2>
+        <h3>{{ poll.question }}</h3>
+
+        {% if poll.choices|length >= 2 %}
+        <form method="POST" action="{{ url_for('vote') }}" class="poll-form">
+            <label class="choice-wrapper">
+                <input type="radio" name="choice" value="{{ poll.choices[0].id }}" required>
+                <div class="custom-radio">
+                    <img src="{{ url_for('static', filename='poll_images/' ~ poll.contestant1_image) }}" alt="{{ poll.contestant1_name }}">
+                    <strong>{{ poll.contestant1_name }}</strong>
+                </div>
+            </label>
+
+            <label class="choice-wrapper">
+                <input type="radio" name="choice" value="{{ poll.choices[1].id }}" required>
+                <div class="custom-radio">
+                    <img src="{{ url_for('static', filename='poll_images/' ~ poll.contestant2_image) }}" alt="{{ poll.contestant2_name }}">
+                    <strong>{{ poll.contestant2_name }}</strong>
+                </div>
+            </label>
+
+            <br>
+            <button type="submit">Vote</button>
+        </form>
+        {% else %}
+            <p style="text-align: center; color: red; margin-top: 20px;">
+                Ma jiraan tartamayaal ku filan codbixinta. Fadlan la xiriir admin si loo daro.
+            </p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

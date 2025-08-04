@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Creat Poll</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url("{{ url_for('static', filename='13.jpg') }}");
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding-top: 40px;
+        }
+        .logo {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            
+            
+        }
+
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-container {
+            max-width: 700px;
+            margin: 50px auto;
+           background: rgba(255, 255, 255, 0.208);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.815);
+        }
+
+        h2 {
+            text-align: center;
+            color: #000000;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form input[type="text"],
+        form input[type="file"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #0c0101;
+            font-size: 14px;
+        }
+
+        form button {
+            width: 100%;
+            max-width: 200px;
+            padding: 10px;
+            background-color: #0481f5d2;
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.904);
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        form button:hover {
+            background-color: #0000018c;
+        }
+
+        .bottom-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .bottom-links a {
+            text-decoration: none;
+            margin: 0 10px;
+            background-color: #0481f5d2;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            display: inline-block;
+        }
+
+        .bottom-links a:hover {
+            background-color: #495057;
+        }
+
+        .messages {
+            text-align: center;
+            color: green;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    </div>
+
+<div class="admin-container">
+    <h2>Creat New Poll</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="text" name="poll_name" placeholder="Magaca Poll-ka" required>
+        <input type="text" name="question" placeholder="Ciwaanka Poll-ka" required>
+
+        <input type="text" name="contestant1_name" placeholder="Magaca Tartamaha 1aad" required>
+        <input type="file" name="contestant1_image">
+
+        <input type="text" name="contestant2_name" placeholder="Magaca Tartamaha 2aad" required>
+        <input type="file" name="contestant2_image">
+
+        <input type="text" name="choices" placeholder="Choice 1">
+        <input type="text" name="choices" placeholder="Choice 2">
+
+        <button type="submit">Creat Poll</button>
+    </form>
+
+    <div class="bottom-links">
+        <a href="{{ url_for('index') }}">Back to Voting</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</div>
+
+</body>
+</html>
